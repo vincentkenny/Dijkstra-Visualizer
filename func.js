@@ -133,6 +133,15 @@ function reset_grid() {
   for (var i = 0; i < grid.length; i++) {
     grid[i].setAttribute("class", "grid");
   }
+  x_start = 12;
+  y_start = 7;
+  start = document.getElementById(y_start + "-" + x_start);
+  start.setAttribute("class", "start-node");
+
+  x_end = 42;
+  y_end = 7;
+  start = document.getElementById(y_end + "-" + x_end);
+  start.setAttribute("class", "end-node");
 }
 
 function toggle_cycle() {
