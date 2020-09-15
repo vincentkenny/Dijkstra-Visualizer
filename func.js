@@ -1,21 +1,19 @@
-class node {
-  constructor(x, y, group) {
+class Wall {
+  constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.group = group;
   }
 }
 
 var cur_stat;
-var arrNode = new Array();
-var centroid = new Array();
-var group_num = 0;
+var arrWall = new Array();
 var myvar;
 var type = "";
 var x_start = -1;
 var y_start = -1;
 var x_end = -1;
 var y_end = -1;
+var cost = [];
 
 function view_dropdown() {
   dropdown = document.getElementsByClassName("dropdown-menu")[0];
@@ -40,16 +38,16 @@ function generate() {
       tag.addEventListener("click", function () {
         cur_stat = this.id;
         coords = this.id.split("-");
-        y = coords[0];
-        x = coords[1];
+        y = parseInt(coords[0]);
+        x = parseInt(coords[1]);
         if (this.className == "grid" || this.className == "grid-transition") {
           this.className = "node";
-          arrNode.push(new node(x, y, 0));
+          arrWall.push(new Wall(x, y));
         } else if (this.className == "node") {
           this.className = "grid";
-          for (var k = 0; k < arrNode.length; k++) {
-            if (arrNode[k].x == x && arrNode[k].y == y) {
-              arrNode.splice(k, 1);
+          for (var k = 0; k < arrWall.length; k++) {
+            if (arrWall[k].x == x && arrWall[k].y == y) {
+              arrWall.splice(k, 1);
             }
           }
         }
@@ -67,25 +65,26 @@ function generate() {
           if (this.id != cur_stat) {
             if (
               (this.className == "grid" ||
-              this.className == "grid-transition") && type!="start-node" && type!="end-node"
+                this.className == "grid-transition") &&
+              type != "start-node" &&
+              type != "end-node"
             ) {
               this.className = "node";
-              arrNode.push(new node(x, y, 0));
+              arrWall.push(new Wall(x, y));
             } else if (this.className == "node") {
               this.className = "grid";
-              for (var k = 0; k < arrNode.length; k++) {
-                if (arrNode[k].x == x && arrNode[k].y == y) {
-                  arrNode.splice(k, 1);
+              for (var k = 0; k < arrWall.length; k++) {
+                if (arrWall[k].x == x && arrWall[k].y == y) {
+                  arrWall.splice(k, 1);
                 }
               }
-            }else if (type=="start-node"){
+            } else if (type == "start-node") {
               start = document.getElementById(y_start + "-" + x_start);
               start.setAttribute("class", "grid");
               this.className = "start-node";
               x_start = x;
               y_start = y;
-            }
-            else if (type=="end-node"){
+            } else if (type == "end-node") {
               end = document.getElementById(y_end + "-" + x_end);
               end.setAttribute("class", "grid");
               this.className = "end-node";
@@ -103,12 +102,12 @@ function generate() {
 
   //initialize start
   x_start = 12;
-  y_start = 7;
+  y_start = 9;
   start = document.getElementById(y_start + "-" + x_start);
   start.setAttribute("class", "start-node");
 
   x_end = 42;
-  y_end = 7;
+  y_end = 9;
   start = document.getElementById(y_end + "-" + x_end);
   start.setAttribute("class", "end-node");
 
@@ -128,18 +127,18 @@ function generate() {
 
 function reset_grid() {
   stop_cycle();
-  arrNode = new Array();
+  arrWall = new Array();
   grid = document.getElementById("board").getElementsByTagName("td");
   for (var i = 0; i < grid.length; i++) {
     grid[i].setAttribute("class", "grid");
   }
   x_start = 12;
-  y_start = 7;
+  y_start = 9;
   start = document.getElementById(y_start + "-" + x_start);
   start.setAttribute("class", "start-node");
 
   x_end = 42;
-  y_end = 7;
+  y_end = 9;
   start = document.getElementById(y_end + "-" + x_end);
   start.setAttribute("class", "end-node");
 }
@@ -157,8 +156,59 @@ function stop_cycle() {
   btn.disabled = false;
 }
 //// AI METHODS
-function djikstra(){
-  
+function dijkstra() {
+  //generating first state
+  for (var from = 0; from < 1100; from++) {
+    cost.push([0]);
+    for (var to = 0; to < 1100; to++) {
+      //constituting the coordinates from index and the adjacent squares
+      coor_x = from % 55;
+      coor_y = Math.floor(from / 20);
+      index_top = (coor_y - 1) * 20 + coor_x;
+      index_left = coor_y * 20 + coor_x - 1;
+      index_right = coor_y * 20 + coor_x + 1;
+      index_bottom = (coor_y + 1) * 20 + coor_x;
+
+      if (from == to) cost[from][to] = 0;
+      else if (to == index_top && coor_y > 0) cost[from][to] = 1;
+      else if (to == index_left && coor_x > 0) cost[from][to] = 1;
+      else if (to == index_right && coor_x < 54) cost[from][to] = 1;
+      else if (to == index_bottom && coor_y < 19) cost[from][to] = 1;
+      else cost[from][to] = 999;
+    }
+  }
+  //defining walls
+  arrWall.forEach(function (item) {
+    point = item.y * 20 + item.x;
+    index_top = (item.y- 1) * 20 + item.x;
+    index_left = item.y * 20 + item.x - 1;
+    index_right = item.y * 20 + item.x + 1;
+    index_bottom = (item.y + 1) * 20 + item.x;
+
+    //handles top row
+    if (item.y > 0) {
+      cost[point][index_top] = 999;
+      cost[index_top][point] = 999;
+    }
+    //handles left side
+    if (item.x > 0) {
+      cost[point][index_left] = 999;
+      cost[index_left][point] = 999;
+    }
+
+    //handles right side
+    if (item.x < 54) {
+      cost[point][index_right] = 999;
+      cost[index_right][point] = 999;
+    }
+    //handles bottom row
+    if (item.y < 19) {
+      cost[point][index_bottom] = 999;
+      cost[index_bottom][point] = 999;
+    }
+  });
+
+  console.log(cost);
 }
 
 function visualize_k_means() {
