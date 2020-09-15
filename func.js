@@ -110,6 +110,9 @@ function generate() {
   y_end = 9;
   start = document.getElementById(y_end + "-" + x_end);
   start.setAttribute("class", "end-node");
+  
+  initiate_matrix();
+  console.log(cost);
 
   var mouseDown = false;
   body = document.getElementById("board");
@@ -123,6 +126,29 @@ function generate() {
   });
   cycle_view = document.getElementById("cycle_view");
   cycle_view.style.display = "none";
+  
+}
+
+function initiate_matrix(){
+  for (var from = 0; from < 1100; from++) {
+    cost.push([0]);
+    for (var to = 0; to < 1100; to++) {
+      //constituting the coordinates from index and the adjacent squares
+      coor_x = from % 55;
+      coor_y = Math.floor(from / 55);
+      index_top = (coor_y - 1) * 55 + coor_x;
+      index_left = coor_y * 55 + coor_x - 1;
+      index_right = coor_y * 55 + coor_x + 1;
+      index_bottom = (coor_y + 1) * 55 + coor_x;
+
+      if (from == to) cost[from][to] = 0;
+      else if (to == index_top && coor_y > 0) cost[from][to] = 1;
+      else if (to == index_left && coor_x > 0) cost[from][to] = 1;
+      else if (to == index_right && coor_x < 54) cost[from][to] = 1;
+      else if (to == index_bottom && coor_y < 19) cost[from][to] = 1;
+      else cost[from][to] = 999;
+    }
+  }
 }
 
 function reset_grid() {
@@ -158,32 +184,14 @@ function stop_cycle() {
 //// AI METHODS
 function dijkstra() {
   //generating first state
-  for (var from = 0; from < 1100; from++) {
-    cost.push([0]);
-    for (var to = 0; to < 1100; to++) {
-      //constituting the coordinates from index and the adjacent squares
-      coor_x = from % 55;
-      coor_y = Math.floor(from / 20);
-      index_top = (coor_y - 1) * 20 + coor_x;
-      index_left = coor_y * 20 + coor_x - 1;
-      index_right = coor_y * 20 + coor_x + 1;
-      index_bottom = (coor_y + 1) * 20 + coor_x;
-
-      if (from == to) cost[from][to] = 0;
-      else if (to == index_top && coor_y > 0) cost[from][to] = 1;
-      else if (to == index_left && coor_x > 0) cost[from][to] = 1;
-      else if (to == index_right && coor_x < 54) cost[from][to] = 1;
-      else if (to == index_bottom && coor_y < 19) cost[from][to] = 1;
-      else cost[from][to] = 999;
-    }
-  }
+  
   //defining walls
   arrWall.forEach(function (item) {
-    point = item.y * 20 + item.x;
-    index_top = (item.y- 1) * 20 + item.x;
-    index_left = item.y * 20 + item.x - 1;
-    index_right = item.y * 20 + item.x + 1;
-    index_bottom = (item.y + 1) * 20 + item.x;
+    point = item.y * 55 + item.x;
+    index_top = (item.y- 1) * 55 + item.x;
+    index_left = item.y * 55 + item.x - 1;
+    index_right = item.y * 55 + item.x + 1;
+    index_bottom = (item.y + 1) * 55 + item.x;
 
     //handles top row
     if (item.y > 0) {
