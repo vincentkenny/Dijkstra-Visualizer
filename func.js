@@ -5,6 +5,14 @@ class Wall {
   }
 }
 
+class Pairs {
+  constructor(a, b, dist) {
+    this.origin = a;
+    this.destination = b;
+    this.distance = dist;
+  }
+}
+
 var cur_stat;
 var arrWall = new Array();
 var myvar;
@@ -14,6 +22,8 @@ var y_start = -1;
 var x_end = -1;
 var y_end = -1;
 var cost = [];
+var queue = [];
+var visited = [];
 
 function view_dropdown() {
   dropdown = document.getElementsByClassName("dropdown-menu")[0];
@@ -79,17 +89,21 @@ function generate() {
                 }
               }
             } else if (type == "start-node") {
-              start = document.getElementById(y_start + "-" + x_start);
-              start.setAttribute("class", "grid");
-              this.className = "start-node";
-              x_start = x;
-              y_start = y;
+              if (x != x_end || y != y_end) {
+                start = document.getElementById(y_start + "-" + x_start);
+                start.setAttribute("class", "grid");
+                this.className = "start-node";
+                x_start = x;
+                y_start = y;
+              }
             } else if (type == "end-node") {
-              end = document.getElementById(y_end + "-" + x_end);
-              end.setAttribute("class", "grid");
-              this.className = "end-node";
-              x_end = x;
-              y_end = y;
+              if (x != x_start || y != y_start) {
+                end = document.getElementById(y_end + "-" + x_end);
+                end.setAttribute("class", "grid");
+                this.className = "end-node";
+                x_end = x;
+                y_end = y;
+              }
             }
           }
           cur_stat = this.id;
@@ -110,9 +124,9 @@ function generate() {
   y_end = 9;
   start = document.getElementById(y_end + "-" + x_end);
   start.setAttribute("class", "end-node");
-  
+
   initiate_matrix();
-  console.log(cost);
+  // console.log(cost);
 
   var mouseDown = false;
   body = document.getElementById("board");
@@ -126,10 +140,9 @@ function generate() {
   });
   cycle_view = document.getElementById("cycle_view");
   cycle_view.style.display = "none";
-  
 }
 
-function initiate_matrix(){
+function initiate_matrix() {
   for (var from = 0; from < 1100; from++) {
     cost.push([0]);
     for (var to = 0; to < 1100; to++) {
@@ -183,12 +196,10 @@ function stop_cycle() {
 }
 //// AI METHODS
 function dijkstra() {
-  //generating first state
-  
   //defining walls
   arrWall.forEach(function (item) {
     point = item.y * 55 + item.x;
-    index_top = (item.y- 1) * 55 + item.x;
+    index_top = (item.y - 1) * 55 + item.x;
     index_left = item.y * 55 + item.x - 1;
     index_right = item.y * 55 + item.x + 1;
     index_bottom = (item.y + 1) * 55 + item.x;
@@ -216,7 +227,71 @@ function dijkstra() {
     }
   });
 
-  console.log(cost);
+  //console.log(cost);
+  //initializing finish state
+  start_node = y_start * 55 + x_start;
+  end_node = y_end * 55 + x_end;
+
+  active_node = start_node;
+  cur_cost = 0;
+  queue.push(new Pairs(active_node, active_node, 0));
+
+  while (active_node != end_node) {
+    //searching neighbors and establishing queues
+    for (var i = 0; i < cost.length; i++) {
+      if (cost[active_node][i] != 0 && cost[active_node][i] != 999) {
+        // checking if already visited
+        already_visited = false;
+        for (var j = 0; j < visited.length; j++) {
+          if (visited[j].origin == i) {
+            already_visited = true;
+            break;
+          }
+        }
+        if (!already_visited) {
+          //checking if already queued
+          already_queued = false;
+          perceived_distance = cost[active_node][i] + cur_cost;
+          for (var j = 0; j < queue.length; j++) {
+            if (queue[j].destination == i) {
+              if (queue[j].distance > perceived_distance) {
+                queue.splice(j, 1);
+              } else {
+                already_queued = true;
+              }
+              break;
+            }
+          }
+          if (!already_queued) {
+            queue.push(new Pairs(active_node, i, perceived_distance));
+          }
+        }
+      }
+    }
+    //sorting the queue
+    sorted = true;
+    do {
+      sorted = true;
+      for (var i = 0; i < queue.length - 1; i++) {
+        if (queue[i].distance > queue[i + 1].distance) {
+          temp = queue[i];
+          queue[i] = queue[i + 1];
+          queue[i + 1] = temp;
+          sorted = false;
+        }
+      }
+    } while (!sorted);
+    visited.push(queue[0]);
+    y_temp = Math.floor(queue[0].destination / 55);
+    x_temp = queue[0].destination % 55;
+    color_visited = document.getElementById(y_temp + "-" + x_temp);
+    if (color_visited.className != "start-node")
+      color_visited.setAttribute("class", "group1");
+    queue.splice(0, 1);
+    active_node = queue[0].destination;
+    cur_cost = queue[0].distance;
+  }
+  console.log(visited);
 }
 
 function visualize_k_means() {
