@@ -180,6 +180,11 @@ function reset_grid() {
   y_end = 9;
   start = document.getElementById(y_end + "-" + x_end);
   start.setAttribute("class", "end-node");
+  arrWall = new Array();
+  cost = [];
+  queue = [];
+  visited = [];
+  initiate_matrix();
 }
 
 function toggle_cycle() {
@@ -291,7 +296,37 @@ function dijkstra() {
     active_node = queue[0].destination;
     cur_cost = queue[0].distance;
   }
+  visited.push(queue[0]);
+
   console.log(visited);
+  traversed_node = end_node;
+  final_path = [];
+  final_path.push(end_node);
+  while (traversed_node != start_node) {
+    min_dist = 999;
+    next_node = traversed_node;
+    for (var i = visited.length - 1; i >= 0; i--) {
+      if (visited[i].destination == traversed_node) {
+        if (visited[i].distance < min_dist) {
+          min_dist = visited[i].distance;
+          next_node = visited[i].origin;
+        }
+      }
+    }
+    final_path.push(next_node);
+    traversed_node = next_node;
+  }
+  console.log(final_path);
+  for (var i = 0; i < final_path.length; i++) {
+    coor_x = final_path[i] % 55;
+    coor_y = Math.floor(final_path[i] / 55);
+    path_step = document.getElementById(coor_y + "-" + coor_x);
+    if (
+      path_step.className != "start-node" &&
+      path_step.className != "end-node"
+    )
+      path_step.setAttribute("class", "group2");
+  }
 }
 
 function visualize_k_means() {
