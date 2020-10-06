@@ -116,7 +116,6 @@ function generate() {
         }
       });
       document.getElementById("row " + i).appendChild(tag);
-      // array_grid.push(new grid(j, i));
     }
   }
 
@@ -215,12 +214,22 @@ function toggle_cycle() {
 function stop_cycle() {
   if (intervalVisited) clearInterval(intervalVisited);
   if (intervalPath) clearInterval(intervalPath);
-  // cycle_view = document.getElementById("cycle_view");
-  // cycle_view.style.display = "none";
-  // btn = document.getElementById("btn-visualize");
-  // btn.disabled = false;
 }
-
+function scatter_wall() {
+  if (!visual_started) {
+    for (var i = 0; i < 100; i++) {
+      cand_x = Math.floor(Math.random() * 49) + 3;
+      cand_y = Math.floor(Math.random() * 14) + 3;
+      cand = document.getElementById(cand_y + "-" + cand_x);
+      if (cand.className != "start-node" && cand.className != "end-node") {
+        cand.setAttribute("class", "node");
+        arrWall.push(new Wall(cand_x, cand_y));
+      }
+    }
+  }else{
+    alert("Clear board first!");
+  }
+}
 //establising walls in the matrix
 function establish_walls(arrWall, cost) {
   arrWall.forEach(function (item) {
@@ -272,6 +281,7 @@ function trace_back(end_node, final_path) {
 }
 //// AI METHODS
 function dijkstra() {
+  console.log(window.screen.availHeight + "x" + window.screen.availWidth);
   if (!visual_started) {
     //defining walls
     establish_walls(arrWall, cost);
