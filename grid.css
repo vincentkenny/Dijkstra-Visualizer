@@ -5,6 +5,15 @@ button {
   cursor: pointer;
   outline: none;
 }
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
 .grid {
   width: 22px;
   height: 22px;
@@ -53,10 +62,11 @@ button {
 }
 .start-node:before{
   position: absolute;
-  top: 0;
-  left: 10px;
+  top: 4px;
+  left: 4px;
   font-family: "Font Awesome 5 Free";
-  content: "\f004";
+  content: "\f0b2";
+  font-weight: 900;
 }
 
 .end-node {
@@ -68,10 +78,11 @@ button {
 }
 .end-node:before{
   position: absolute;
-  top: 0;
-  left: 10px;
+  top: 4px;
+  left: 4px;
   font-family: "Font Awesome 5 Free";
-  content: "\f005";
+  content: "\f1cd";
+  font-weight: 900;
 }
 #container {
   width: 100%;
@@ -85,7 +96,6 @@ button {
   width: 100%;
   height: 15%;
   background-color: #ffa36c;
-  margin-bottom: 20px;
   position: relative;
 }
 .navbar-header {
@@ -216,7 +226,7 @@ button {
   }
 }
 
-.node {
+.wall {
   width: 22px;
   height: 22px;
   background-color: rgb(22, 0, 30);
@@ -224,7 +234,7 @@ button {
   display: inline-block;
 }
 
-.node {
+.wall {
   animation-name: visitedAnimation;
   animation-duration: 0.2s;
   animation-timing-function: ease-out;
@@ -247,7 +257,7 @@ button {
   }
 }
 
-.group1 {
+.visited-node {
   width: 22px;
   height: 22px;
   background-color: rgb(26, 208, 157);
@@ -302,7 +312,7 @@ button {
     background-color: rgb(226, 212, 84);
   }
 }
-.group3 {
+.final-path {
   width: 22px;
   height: 22px;
   background-color: rgb(247, 113, 125);
@@ -321,7 +331,7 @@ button {
 @keyframes visitedAnimation3 {
   0% {
     transform: scale(0.3);
-    background-color: rgba(0, 0, 66, 0.75);
+    background-color: rgba(115, 115, 128, 0.75);
   }
 
   100% {
@@ -537,4 +547,44 @@ button {
 
 #cycle_view {
   display: none;
+}
+
+.legends{
+  padding-top:15px;
+  margin-bottom:10px;
+  height:30px;
+  float:left;
+}
+.legends-item{
+  margin-left:40px;
+  height: 100%;
+  float:left;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+}
+#wall-legend{
+  width: 18px;
+  height: 18px;
+  background-color: rgb(22, 0, 30);
+  outline: 1px solid rgb(175, 216, 248);
+  float:left;
+  margin-right: 5px;
+}
+
+#visited-legend{
+  width: 18px;
+  height: 18px;
+  background-color: rgb(26, 208, 157);
+  outline: 1px solid rgb(175, 216, 248);
+  float:left;
+  margin-right: 5px;
+}
+
+#final-legend{
+  width: 18px;
+  height: 18px;
+  background-color: rgb(247, 113, 125);
+  outline: 1px solid rgb(175, 216, 248);
+  float:left;
+  margin-right: 5px;
 }

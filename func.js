@@ -57,9 +57,10 @@ function generate() {
           (this.className == "grid" || this.className == "grid-transition") &&
           !visual_started
         ) {
-          this.className = "node";
+          this.className = "wall";
           arrWall.push(new Wall(x, y));
-        } else if (this.className == "node") {
+        } else if (this.className == "wall" &&
+        !visual_started) {
           this.className = "grid";
           for (var k = 0; k < arrWall.length; k++) {
             if (arrWall[k].x == x && arrWall[k].y == y) {
@@ -85,9 +86,9 @@ function generate() {
               type != "start-node" &&
               type != "end-node"
             ) {
-              this.className = "node";
+              this.className = "wall";
               arrWall.push(new Wall(x, y));
-            } else if (this.className == "node") {
+            } else if (this.className == "wall") {
               this.className = "grid";
               for (var k = 0; k < arrWall.length; k++) {
                 if (arrWall[k].x == x && arrWall[k].y == y) {
@@ -222,7 +223,7 @@ function scatter_wall() {
       cand_y = Math.floor(Math.random() * 14) + 3;
       cand = document.getElementById(cand_y + "-" + cand_x);
       if (cand.className != "start-node" && cand.className != "end-node") {
-        cand.setAttribute("class", "node");
+        cand.setAttribute("class", "wall");
         arrWall.push(new Wall(cand_x, cand_y));
       }
     }
@@ -280,6 +281,43 @@ function trace_back(end_node, final_path) {
   }
 }
 //// AI METHODS
+
+//visualize visited
+function visualize_visited(visited, final_path) {
+  count = 0;
+  intervalVisited = setInterval(function () {
+    y_temp = Math.floor(visited[count].destination / 55);
+    x_temp = visited[count].destination % 55;
+    color_visited = document.getElementById(y_temp + "-" + x_temp);
+    if (
+      color_visited.className != "start-node" &&
+      color_visited.className != "end-node"
+    )
+      color_visited.setAttribute("class", "visited-node");
+    count++;
+    if (count == visited.length) {
+      clearInterval(intervalVisited);
+      visualize_path(final_path);
+    }
+  }, 1);
+}
+//visualize final_path
+function visualize_path(final_path) {
+  counter = 0;
+  intervalPath = setInterval(() => {
+    coor_x = final_path[counter] % 55;
+    coor_y = Math.floor(final_path[counter] / 55);
+    path_step = document.getElementById(coor_y + "-" + coor_x);
+    if (
+      path_step.className != "start-node" &&
+      path_step.className != "end-node"
+    )
+      path_step.setAttribute("class", "final-path");
+    counter++;
+    if (counter == final_path.length) clearInterval(intervalPath);
+  }, 30);
+}
+
 function dijkstra() {
   console.log(window.screen.availHeight + "x" + window.screen.availWidth);
   if (!visual_started) {
@@ -347,10 +385,16 @@ function dijkstra() {
       // x_temp = queue[0].destination % 55;
       // color_visited = document.getElementById(y_temp + "-" + x_temp);
       // if (color_visited.className != "start-node")
-      //   color_visited.setAttribute("class", "group1");
+      //   color_visited.setAttribute("class", "visited-node");
       queue.splice(0, 1);
-      active_node = queue[0].destination;
+      try {
+        active_node = queue[0].destination;
       cur_cost = queue[0].distance;
+      } catch (error) {
+        alert("Path not found! Clear board to restart!");
+        break;
+      }
+      
     }
     //end node
     visited.push(queue[0]);
@@ -363,39 +407,5 @@ function dijkstra() {
     //visualization
     visualize_visited(visited, final_path);
   }
-  //visualize visited
-  function visualize_visited(visited, final_path) {
-    count = 0;
-    intervalVisited = setInterval(function () {
-      y_temp = Math.floor(visited[count].destination / 55);
-      x_temp = visited[count].destination % 55;
-      color_visited = document.getElementById(y_temp + "-" + x_temp);
-      if (
-        color_visited.className != "start-node" &&
-        color_visited.className != "end-node"
-      )
-        color_visited.setAttribute("class", "group1");
-      count++;
-      if (count == visited.length) {
-        clearInterval(intervalVisited);
-        visualize_path(final_path);
-      }
-    }, 1);
-  }
-  //visualize final_path
-  function visualize_path(final_path) {
-    counter = 0;
-    intervalPath = setInterval(() => {
-      coor_x = final_path[counter] % 55;
-      coor_y = Math.floor(final_path[counter] / 55);
-      path_step = document.getElementById(coor_y + "-" + coor_x);
-      if (
-        path_step.className != "start-node" &&
-        path_step.className != "end-node"
-      )
-        path_step.setAttribute("class", "group2");
-      counter++;
-      if (counter == final_path.length) clearInterval(intervalPath);
-    }, 30);
-  }
+  
 }

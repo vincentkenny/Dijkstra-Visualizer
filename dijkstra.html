@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <div class="nav">
+    <div class="nav noselect">
         <div class="navbar-header">
             <a href="#" class="navbar-brand">Dijkstra Pathfinding Visualizer</a>
         </div>
@@ -31,6 +31,13 @@
             <a href="#" class="toolbar-item" id="cycle_view" ">Cycle</a>
             
         </div>
+    </div>
+    <div class="legends noselect">
+        <div class="legends-item"><i class="fas fa-arrows-alt"></i> Start Position</div>
+        <div class="legends-item"><i class="fas fa-life-ring"></i> End Goal</div>
+        <div class="legends-item"><div id="wall-legend"></div> Walls</div>
+        <div class="legends-item"><div id="visited-legend"></div> Visited Steps</div>
+        <div class="legends-item"><div id="final-legend"></div> Shortest Path</div>
     </div>
     <div id="container">
         <table id="board">
