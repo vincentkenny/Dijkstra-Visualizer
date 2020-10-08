@@ -27,6 +27,9 @@ var queue = [];
 var visited = [];
 var final_path = [];
 var visual_started = false;
+var hor_length = 55;
+var ver_length = 20;
+var move_comp="";
 
 function view_dropdown() {
   dropdown = document.getElementsByClassName("dropdown-menu")[0];
@@ -39,12 +42,43 @@ function view_dropdown() {
 
 //estrablishing functions and generating grid
 function generate() {
-  group_num = 0;
-  for (i = 0; i < 20; i++) {
+  renew_arrays();
+  stop_cycle();
+  visual_started=false;
+  document.getElementById("board").innerHTML = "";
+  if (window.screen.availWidth < 600) {
+    hor_length = 10;
+    ver_length = 15;
+    x_start = 2;
+    y_start = 2;
+    x_end = 8;
+    y_end = 12;
+    document.getElementById("scatter-btn").innerHTML="Scatter Obstacles";
+  }
+  //tablet potrait
+  else if (window.screen.availWidth > 600 && window.screen.availWidth < 770) {
+    hor_length = 21;
+    ver_length = 20;
+    x_start = 1;
+    y_start = 1;
+    x_end = 10;
+    y_end = 10;
+  }
+  //desktop
+  else {
+    hor_length = 55;
+    ver_length = 20;
+    x_start = 12;
+    y_start = 9;
+    x_end = 42;
+    y_end = 9;
+    document.getElementById("scatter-btn").innerHTML="Scatter Random Obstacles";
+  }
+  for (i = 0; i < ver_length; i++) {
     var tag = document.createElement("tr");
     tag.setAttribute("id", "row " + i);
     document.getElementById("board").appendChild(tag);
-    for (j = 0; j < 55; j++) {
+    for (j = 0; j < hor_length; j++) {
       var tag = document.createElement("td");
       tag.setAttribute("class", "grid");
       tag.setAttribute("id", i + "-" + j);
@@ -53,21 +87,41 @@ function generate() {
         coords = this.id.split("-");
         y = parseInt(coords[0]);
         x = parseInt(coords[1]);
+        
         if (
           (this.className == "grid" || this.className == "grid-transition") &&
-          !visual_started
+          !visual_started && !move_comp
         ) {
           this.className = "wall";
           arrWall.push(new Wall(x, y));
-        } else if (this.className == "wall" &&
-        !visual_started) {
+        } else if((this.className == "grid" || this.className == "grid-transition") &&
+        !visual_started && move_comp!=null){
+          this.className = move_comp;
+          if(move_comp == "start-node"){
+            x_start = x;
+            y_start = y;
+          }
+          else if(move_comp == "end-node"){
+            x_end = x;
+            y_end = y;
+          }
+          move_comp = "";
+        }else if (this.className == "wall" && !visual_started) {
           this.className = "grid";
           for (var k = 0; k < arrWall.length; k++) {
             if (arrWall[k].x == x && arrWall[k].y == y) {
               arrWall.splice(k, 1);
             }
           }
+        }else if(this.className == "start-node" && !visual_started){
+          move_comp = "start-node";
+          this.className="grid";
         }
+        else if(this.className == "end-node" && !visual_started){
+          move_comp = "end-node";
+          this.className="grid";
+        }
+        console.log(move_comp); 
       });
       tag.addEventListener("mousedown", function () {
         cur_stat = this.id;
@@ -121,15 +175,12 @@ function generate() {
   }
 
   //initialize start
-  x_start = 12;
-  y_start = 9;
+
   start = document.getElementById(y_start + "-" + x_start);
   start.setAttribute("class", "start-node");
 
-  x_end = 42;
-  y_end = 9;
-  start = document.getElementById(y_end + "-" + x_end);
-  start.setAttribute("class", "end-node");
+  end = document.getElementById(y_end + "-" + x_end);
+  end.setAttribute("class", "end-node");
 
   initiate_matrix();
   // console.log(cost);
@@ -150,16 +201,16 @@ function generate() {
 
 //matrix initiation
 function initiate_matrix() {
-  for (var from = 0; from < 1100; from++) {
+  for (var from = 0; from < (hor_length*ver_length); from++) {
     cost.push([0]);
-    for (var to = 0; to < 1100; to++) {
+    for (var to = 0; to < (hor_length*ver_length); to++) {
       //constituting the coordinates from index and the adjacent squares
-      coor_x = from % 55;
-      coor_y = Math.floor(from / 55);
-      index_top = (coor_y - 1) * 55 + coor_x;
-      index_left = coor_y * 55 + coor_x - 1;
-      index_right = coor_y * 55 + coor_x + 1;
-      index_bottom = (coor_y + 1) * 55 + coor_x;
+      coor_x = from % hor_length;
+      coor_y = Math.floor(from / hor_length);
+      index_top = (coor_y - 1) * hor_length + coor_x;
+      index_left = coor_y * hor_length + coor_x - 1;
+      index_right = coor_y * hor_length + coor_x + 1;
+      index_bottom = (coor_y + 1) * hor_length + coor_x;
 
       if (from == to) cost[from][to] = 0;
       else if (to == index_top && coor_y > 0) cost[from][to] = 1;
@@ -169,6 +220,7 @@ function initiate_matrix() {
       else cost[from][to] = 999;
     }
   }
+  console.log(cost);
 }
 
 //reset function
@@ -182,19 +234,10 @@ function reset_grid() {
   for (var i = 0; i < grid.length; i++) {
     grid[i].setAttribute("class", "grid");
   }
-  x_start = 12;
-  y_start = 9;
   start = document.getElementById(y_start + "-" + x_start);
   start.setAttribute("class", "start-node");
-
-  x_end = 42;
-  y_end = 9;
   start = document.getElementById(y_end + "-" + x_end);
   start.setAttribute("class", "end-node");
-  arrWall = new Array();
-  cost = [];
-  queue = [];
-  visited = [];
 
   //reinitiate matrix
   initiate_matrix();
@@ -205,6 +248,7 @@ function renew_arrays() {
   queue = new Array();
   arrWall = new Array();
   visited = new Array();
+  cost = new Array();
   final_path = new Array();
 }
 function toggle_cycle() {
@@ -218,27 +262,42 @@ function stop_cycle() {
 }
 function scatter_wall() {
   if (!visual_started) {
-    for (var i = 0; i < 100; i++) {
-      cand_x = Math.floor(Math.random() * 49) + 3;
-      cand_y = Math.floor(Math.random() * 14) + 3;
+    if (window.screen.availWidth < 600) {
+      amount = 30
+      buffer = 0;
+    }
+    //tablet potrait
+    else if (window.screen.availWidth > 600 && window.screen.availWidth < 770) {
+      amount = 60;
+      buffer = 2;
+    }
+    //desktop
+    else {
+      amount = 100;
+      buffer = 3;
+    }
+    for (var i = 0; i < amount; i++) {
+      cand_x = Math.floor(Math.random() * (hor_length-buffer*2)) + buffer;
+      cand_y = Math.floor(Math.random() * (ver_length-buffer*2)) + buffer;
+      console.log(cand_y + "-" + cand_x);
       cand = document.getElementById(cand_y + "-" + cand_x);
       if (cand.className != "start-node" && cand.className != "end-node") {
         cand.setAttribute("class", "wall");
         arrWall.push(new Wall(cand_x, cand_y));
       }
     }
-  }else{
+  } else {
     alert("Clear board first!");
   }
 }
 //establising walls in the matrix
 function establish_walls(arrWall, cost) {
   arrWall.forEach(function (item) {
-    point = item.y * 55 + item.x;
-    index_top = (item.y - 1) * 55 + item.x;
-    index_left = item.y * 55 + item.x - 1;
-    index_right = item.y * 55 + item.x + 1;
-    index_bottom = (item.y + 1) * 55 + item.x;
+    point = item.y * hor_length + item.x;
+    index_top = (item.y - 1) * hor_length + item.x;
+    index_left = item.y * hor_length + item.x - 1;
+    index_right = item.y * hor_length + item.x + 1;
+    index_bottom = (item.y + 1) * hor_length + item.x;
 
     //handles top row
     if (item.y > 0) {
@@ -252,12 +311,12 @@ function establish_walls(arrWall, cost) {
     }
 
     //handles right side
-    if (item.x < 54) {
+    if (item.x < hor_length-1) {
       cost[point][index_right] = 999;
       cost[index_right][point] = 999;
     }
     //handles bottom row
-    if (item.y < 19) {
+    if (item.y < ver_length-1) {
       cost[point][index_bottom] = 999;
       cost[index_bottom][point] = 999;
     }
@@ -285,9 +344,14 @@ function trace_back(end_node, final_path) {
 //visualize visited
 function visualize_visited(visited, final_path) {
   count = 0;
+  timer = 1;
+  if(window.screen.availWidth<600)
+    timer = 15;
+  else
+    timer = 1;
   intervalVisited = setInterval(function () {
-    y_temp = Math.floor(visited[count].destination / 55);
-    x_temp = visited[count].destination % 55;
+    y_temp = Math.floor(visited[count].destination / hor_length);
+    x_temp = visited[count].destination % hor_length;
     color_visited = document.getElementById(y_temp + "-" + x_temp);
     if (
       color_visited.className != "start-node" &&
@@ -299,14 +363,14 @@ function visualize_visited(visited, final_path) {
       clearInterval(intervalVisited);
       visualize_path(final_path);
     }
-  }, 1);
+  }, timer);
 }
 //visualize final_path
 function visualize_path(final_path) {
   counter = 0;
   intervalPath = setInterval(() => {
-    coor_x = final_path[counter] % 55;
-    coor_y = Math.floor(final_path[counter] / 55);
+    coor_x = final_path[counter] % hor_length;
+    coor_y = Math.floor(final_path[counter] / hor_length);
     path_step = document.getElementById(coor_y + "-" + coor_x);
     if (
       path_step.className != "start-node" &&
@@ -328,8 +392,8 @@ function dijkstra() {
     visual_started = true;
 
     //initializing finish state
-    start_node = y_start * 55 + x_start;
-    end_node = y_end * 55 + x_end;
+    start_node = y_start * hor_length + x_start;
+    end_node = y_end * hor_length + x_end;
 
     active_node = start_node;
     cur_cost = 0;
@@ -389,12 +453,11 @@ function dijkstra() {
       queue.splice(0, 1);
       try {
         active_node = queue[0].destination;
-      cur_cost = queue[0].distance;
+        cur_cost = queue[0].distance;
       } catch (error) {
         alert("Path not found! Clear board to restart!");
         break;
       }
-      
     }
     //end node
     visited.push(queue[0]);
@@ -407,5 +470,4 @@ function dijkstra() {
     //visualization
     visualize_visited(visited, final_path);
   }
-  
 }

@@ -7,11 +7,11 @@ button {
 }
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Safari */
-     -khtml-user-select: none; /* Konqueror HTML */
-       -moz-user-select: none; /* Old versions of Firefox */
-        -ms-user-select: none; /* Internet Explorer/Edge */
-            user-select: none; /* Non-prefixed version, currently
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 .grid {
@@ -21,7 +21,7 @@ button {
   outline: 1px solid #a2d5f2;
   display: inline-block;
 }
-.grid-transition{
+.grid-transition {
   width: 22px;
   height: 22px;
   background-color: white;
@@ -42,7 +42,7 @@ button {
     transform: scale(0.3);
     background-color: rgb(22, 0, 30);
   }
-  50%{
+  50% {
     transform: scale(0.7);
     background-color: rgba(22, 0, 30, 0.5);
   }
@@ -60,7 +60,7 @@ button {
   display: inline-block;
   position: relative;
 }
-.start-node:before{
+.start-node:before {
   position: absolute;
   top: 4px;
   left: 4px;
@@ -76,7 +76,7 @@ button {
   display: inline-block;
   position: relative;
 }
-.end-node:before{
+.end-node:before {
   position: absolute;
   top: 4px;
   left: 4px;
@@ -99,11 +99,11 @@ button {
   position: relative;
 }
 .navbar-header {
-  width: 25%;
+  width: 95%;
+  padding-left: 2%;
   height: 50%;
   align-items: center;
   display: flex;
-  justify-content: center;
 }
 .navbar-brand {
   color: white;
@@ -285,33 +285,6 @@ button {
   }
 }
 
-.group2 {
-  width: 22px;
-  height: 22px;
-  background-color: rgb(226, 212, 84);
-  outline: 1px solid rgb(175, 216, 248);
-  display: inline-block;
-  animation-name: visitedAnimation2;
-  animation-duration: 0.4s;
-  animation-timing-function: ease-out;
-  animation-delay: 0;
-  animation-direction: alternate;
-  animation-iteration-count: 1;
-  animation-fill-mode: forwards;
-  animation-play-state: running;
-}
-
-@keyframes visitedAnimation2 {
-  0% {
-    transform: scale(0.3);
-    background-color: rgba(0, 0, 66, 0.75);
-  }
-
-  100% {
-    transform: scale(1);
-    background-color: rgb(226, 212, 84);
-  }
-}
 .final-path {
   width: 22px;
   height: 22px;
@@ -366,139 +339,6 @@ button {
   }
 }
 
-.centroid1 {
-  width: 22px;
-  height: 22px;
-  background-color: rgb(1, 128, 92);
-  outline: 1px solid rgb(175, 216, 248);
-  display: inline-block;
-  animation-name: centroidAnimation1;
-  animation-duration: 1s;
-  animation-delay: 0;
-  animation-play-state: running;
-}
-@keyframes centroidAnimation1 {
-  0% {
-    background-color: rgb(1, 128, 92);
-  }
-  25% {
-    transform: scale(0.5);
-    background-color: rgba(0, 0, 66, 0.75);
-  }
-
-  50% {
-    background-color: rgb(1, 128, 92);
-  }
-
-  75% {
-    transform: scale(0.5);
-    background-color: rgba(0, 0, 66, 0.75);
-  }
-
-  100% {
-    background-color: rgb(1, 128, 92);
-  }
-}
-
-.centroid2 {
-  width: 22px;
-  height: 22px;
-  background-color: rgb(161, 145, 1);
-  outline: 1px solid rgb(175, 216, 248);
-  display: inline-block;
-  animation-name: centroidAnimation2;
-  animation-duration: 1s;
-  animation-delay: 0;
-  animation-play-state: running;
-}
-@keyframes centroidAnimation2 {
-  0% {
-    background-color: rgb(161, 145, 1);
-  }
-  25% {
-    transform: scale(0.5);
-    background-color: rgba(0, 0, 66, 0.75);
-  }
-
-  50% {
-    background-color: rgb(161, 145, 1);
-  }
-
-  75% {
-    transform: scale(0.5);
-    background-color: rgba(0, 0, 66, 0.75);
-  }
-
-  100% {
-    background-color: rgb(161, 145, 1);
-  }
-}
-.centroid3 {
-  width: 22px;
-  height: 22px;
-  background-color: rgb(165, 0, 14);
-  outline: 1px solid rgb(175, 216, 248);
-  display: inline-block;
-  animation-name: centroidAnimation3;
-  animation-duration: 1s;
-  animation-delay: 0;
-  animation-play-state: running;
-}
-@keyframes centroidAnimation3 {
-  0% {
-    background-color: rgb(165, 0, 14);
-  }
-  25% {
-    transform: scale(0.5);
-    background-color: rgba(0, 0, 66, 0.75);
-  }
-
-  50% {
-    background-color: rgb(165, 0, 14);
-  }
-
-  75% {
-    transform: scale(0.5);
-    background-color: rgba(0, 0, 66, 0.75);
-  }
-
-  100% {
-    background-color: rgb(165, 0, 14);
-  }
-}
-.centroid4 {
-  width: 22px;
-  height: 22px;
-  background-color: rgb(0, 91, 136);
-  outline: 1px solid rgb(175, 216, 248);
-  display: inline-block;
-  animation-name: centroidAnimation4;
-  animation-duration: 1s;
-  animation-delay: 0;
-  animation-play-state: running;
-}
-@keyframes centroidAnimation4 {
-  0% {
-    background-color: rgb(0, 91, 136);
-  }
-  25% {
-    transform: scale(0.5);
-    background-color: rgba(0, 0, 66, 0.75);
-  }
-
-  50% {
-    background-color: rgb(0, 91, 136);
-  }
-
-  75% {
-    transform: scale(0.5);
-    background-color: rgba(0, 0, 66, 0.75);
-  }
-
-  100% {
-    background-color: rgb(0, 91, 136);
-  }
-}
 .sideIcon {
   color: white;
   animation-name: transSideBack;
@@ -549,42 +389,426 @@ button {
   display: none;
 }
 
-.legends{
-  padding-top:15px;
-  margin-bottom:10px;
-  height:30px;
-  float:left;
+.legends {
+  padding-top: 15px;
+  margin-bottom: 10px;
+  height: 30px;
+  float: left;
 }
-.legends-item{
-  margin-left:40px;
+.legends-item {
+  margin-left: 40px;
   height: 100%;
-  float:left;
+  float: left;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
 }
-#wall-legend{
+#wall-legend {
   width: 18px;
   height: 18px;
   background-color: rgb(22, 0, 30);
   outline: 1px solid rgb(175, 216, 248);
-  float:left;
+  float: left;
   margin-right: 5px;
 }
 
-#visited-legend{
+#visited-legend {
   width: 18px;
   height: 18px;
   background-color: rgb(26, 208, 157);
   outline: 1px solid rgb(175, 216, 248);
-  float:left;
+  float: left;
   margin-right: 5px;
 }
 
-#final-legend{
+#final-legend {
   width: 18px;
   height: 18px;
   background-color: rgb(247, 113, 125);
   outline: 1px solid rgb(175, 216, 248);
-  float:left;
+  float: left;
   margin-right: 5px;
+}
+
+
+@media only screen and (max-width: 600px) {
+  .grid {
+    width: 33px;
+    height: 33px;
+    background-color: white;
+    outline: 1px solid rgb(175, 216, 248);
+    display: inline-block;
+  }
+  .grid-transition {
+    width: 33px;
+    height: 33px;
+    background-color: white;
+    outline: 1px solid rgb(175, 216, 248);
+    display: inline-block;
+    animation-name: gridAnimation;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+  }
+
+  .wall {
+    width: 33px;
+    height: 33px;
+    background-color: rgb(22, 0, 30);
+    outline: 1px solid rgb(175, 216, 248);
+    display: inline-block;
+  }
+
+  .wall {
+    animation-name: visitedAnimation;
+    animation-duration: 0.2s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+  }
+
+  .start-node {
+    width: 33px;
+    height: 33px;
+    outline: 1px solid #a2d5f2;
+    display: inline-block;
+    position: relative;
+  }
+  .start-node:before {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-family: "Font Awesome 5 Free";
+    content: "\f0b2";
+    font-weight: 900;
+  }
+
+  .end-node {
+    width: 33px;
+    height: 33px;
+    outline: 1px solid #a2d5f2;
+    display: inline-block;
+    position: relative;
+  }
+  .end-node:before {
+    position: absolute;
+    top: 9px;
+    left: 10px;
+    font-family: "Font Awesome 5 Free";
+    content: "\f1cd";
+    font-weight: 900;
+  }
+  .navbar-header {
+    width: 95%;
+    height: 50%;
+    padding-top: 5px;
+    align-items: left;
+    display: flex;
+    justify-content: left;
+  }
+  .navbar-brand {
+    color: white;
+    font-size: 18;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    margin-left: 5%;
+    animation-name: transTitleBack;
+    animation-timing-function: ease-in;
+    animation-duration: 0.3s;
+  }
+  .toolbar-item {
+    color: white;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14;
+    width: 100px;
+    font-weight: bold;
+    margin-left: 8px;
+    width: 30%;
+    text-align: center;
+
+    animation-name: transTitleBack;
+    animation-timing-function: ease-in;
+    animation-duration: 0.3s;
+  }
+  .nav {
+    width: 100%;
+    height: 16%;
+    background-color: #ffa36c;
+    position: relative;
+  }
+
+  .legends {
+    padding-top: 15px;
+    height: 60px;
+    float: left;
+  }
+  .legends-item {
+    margin-left: 30px;
+    height: 40%;
+    float: left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+  }
+  #wall-legend {
+    width: 18px;
+    height: 18px;
+    background-color: rgb(22, 0, 30);
+    outline: 1px solid rgb(175, 216, 248);
+    float: left;
+    margin-right: 5px;
+  }
+
+  #visited-legend {
+    width: 18px;
+    height: 18px;
+    background-color: rgb(26, 208, 157);
+    outline: 1px solid rgb(175, 216, 248);
+    float: left;
+    margin-right: 5px;
+  }
+
+  #final-legend {
+    width: 18px;
+    height: 18px;
+    background-color: rgb(247, 113, 125);
+    outline: 1px solid rgb(175, 216, 248);
+    float: left;
+    margin-right: 5px;
+  }
+  .visited-node {
+    width: 33px;
+    height: 33px;
+    background-color: rgb(26, 208, 157);
+    outline: 1px solid rgb(175, 216, 248);
+    display: inline-block;
+    animation-name: visitedAnimation1;
+    animation-duration: 0.4s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+  }
+  
+  .final-path {
+    width: 33px;
+    height: 33px;
+    background-color: rgb(247, 113, 125);
+    outline: 1px solid rgb(175, 216, 248);
+    display: inline-block;
+    animation-name: visitedAnimation3;
+    animation-duration: 0.4s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+  }
+  
+}
+
+@media only screen and (min-width: 600px) and (max-width: 768px) {
+  .grid {
+    width: 33px;
+    height: 33px;
+    background-color: white;
+    outline: 1px solid rgb(175, 216, 248);
+    display: inline-block;
+  }
+  .grid-transition {
+    width: 33px;
+    height: 33px;
+    background-color: white;
+    outline: 1px solid rgb(175, 216, 248);
+    display: inline-block;
+    animation-name: gridAnimation;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+  }
+
+  .wall {
+    width: 33px;
+    height: 33px;
+    background-color: rgb(22, 0, 30);
+    outline: 1px solid rgb(175, 216, 248);
+    display: inline-block;
+  }
+
+  .wall {
+    animation-name: visitedAnimation;
+    animation-duration: 0.2s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+  }
+
+  .start-node {
+    width: 33px;
+    height: 33px;
+    outline: 1px solid #a2d5f2;
+    display: inline-block;
+    position: relative;
+  }
+  .start-node:before {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-family: "Font Awesome 5 Free";
+    content: "\f0b2";
+    font-weight: 900;
+  }
+
+  .end-node {
+    width: 33px;
+    height: 33px;
+    outline: 1px solid #a2d5f2;
+    display: inline-block;
+    position: relative;
+  }
+  .end-node:before {
+    position: absolute;
+    top: 9px;
+    left: 10px;
+    font-family: "Font Awesome 5 Free";
+    content: "\f1cd";
+    font-weight: 900;
+  }
+  .navbar-header {
+    width: 95%;
+    height: 50%;
+    padding-top: 5px;
+    align-items: left;
+    display: flex;
+    justify-content: left;
+  }
+  .navbar-brand {
+    color: white;
+    font-size: 22;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    margin-left: 4%;
+    animation-name: transTitleBack;
+    animation-timing-function: ease-in;
+    animation-duration: 0.3s;
+  }
+  .toolbar-container{
+  width: 93%;
+  height: 50%;
+  position: absolute;
+  bottom: 0;
+  padding-left:7%;
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  
+  }
+  .toolbar-item {
+    color: white;
+    text-decoration: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 18;
+    font-weight: bold;
+    margin-left: 8px;
+    text-align: center;
+
+    animation-name: transTitleBack;
+    animation-timing-function: ease-in;
+    animation-duration: 0.3s;
+  }
+  .nav {
+    width: 100%;
+    height: 16%;
+    background-color: #ffa36c;
+    position: relative;
+  }
+
+  .legends {
+    padding-top: 25px;
+    height: 40px;
+    float: left;
+  }
+  .legends-item {
+    margin-left: 30px;
+    height: 40%;
+    float: left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+  }
+  #wall-legend {
+    width: 18px;
+    height: 18px;
+    background-color: rgb(22, 0, 30);
+    outline: 1px solid rgb(175, 216, 248);
+    float: left;
+    margin-right: 5px;
+  }
+
+  #visited-legend {
+    width: 18px;
+    height: 18px;
+    background-color: rgb(26, 208, 157);
+    outline: 1px solid rgb(175, 216, 248);
+    float: left;
+    margin-right: 5px;
+  }
+
+  #final-legend {
+    width: 18px;
+    height: 18px;
+    background-color: rgb(247, 113, 125);
+    outline: 1px solid rgb(175, 216, 248);
+    float: left;
+    margin-right: 5px;
+  }
+  .visited-node {
+    width: 33px;
+    height: 33px;
+    background-color: rgb(26, 208, 157);
+    outline: 1px solid rgb(175, 216, 248);
+    display: inline-block;
+    animation-name: visitedAnimation1;
+    animation-duration: 0.4s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+  }
+  
+  .final-path {
+    width: 33px;
+    height: 33px;
+    background-color: rgb(247, 113, 125);
+    outline: 1px solid rgb(175, 216, 248);
+    display: inline-block;
+    animation-name: visitedAnimation3;
+    animation-duration: 0.4s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+  }
+  
 }
